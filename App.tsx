@@ -25,7 +25,7 @@ export default function App() {
     });
     
     // Request recording permissions at runtime
-    AudioManager.requestRecordingPermissions();
+    // AudioManager.requestRecordingPermissions();
   }, []);
 
   const handleStartStreaming = async () => {
@@ -56,15 +56,24 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={{color: 'black', fontWeight: 'bold'}}>{model.committedTranscription}{' '}<Text style={{color: 'gray', fontStyle: 'italic'}}>{model.nonCommittedTranscription}</Text></Text>
+        {!model.isReady ? (
+      <>
+	      <Text>Loading Whisper model...</Text>
+		    <Text>{Math.round(model.downloadProgress * 100)}%</Text>
+	    </>
+    ) : (
+      <>
+        <Text style={{color: 'black', fontWeight: 'bold'}}>{model.committedTranscription}{' '}<Text style={{color: 'gray', fontStyle: 'italic'}}>{model.nonCommittedTranscription}</Text></Text>
 
-      <View>
-        <Button
-          onPress={model.isGenerating ? handleStopStreaming : handleStartStreaming}
-          title={model.isGenerating ? "Stop Recording" : "Start Recording"}
-          disabled={!model.isReady}
-        />
-      </View>
+        <View>
+          <Button
+            onPress={model.isGenerating ? handleStopStreaming : handleStartStreaming}
+            title={model.isGenerating ? "Stop Recording" : "Start Recording"}
+            disabled={!model.isReady}
+          />
+        </View>
+      </>
+    )}
     </View>
   );
 }
