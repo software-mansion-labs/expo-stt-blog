@@ -25,7 +25,7 @@ export default function App() {
     });
     
     // Request recording permissions at runtime
-    // AudioManager.requestRecordingPermissions();
+    AudioManager.requestRecordingPermissions();
   }, []);
 
   const handleStartStreaming = async () => {
